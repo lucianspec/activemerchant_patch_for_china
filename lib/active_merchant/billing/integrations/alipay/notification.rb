@@ -11,6 +11,10 @@ module ActiveMerchant #:nodoc:
           def complete?
             trade_status == 'TRADE_FINISHED' || trade_status == 'TRADE_SUCCESS'
           end
+          
+          def refund?
+            refund_status == 'REFUND_SUCCESS'
+          end
 
           def pending?
             trade_status == 'WAIT_BUYER_PAY'
