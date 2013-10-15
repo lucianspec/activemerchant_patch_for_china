@@ -9,7 +9,15 @@ module ActiveMerchant #:nodoc:
           def verify_sign
             sign_type = @params.delete("sign_type")
             sign = @params.delete("sign")
-
+            email = @params["seller_email"]
+            if email == EMAIL_NEW
+              alipay_key = KEY_NEW
+            elsif email == EMAIL
+              alipay_key = KEY
+            else
+              return false
+            end
+            
             md5_string = @params.sort.collect do |s|
               unless s[0] == "notify_id"
                 s[0]+"="+CGI.unescape(s[1])
@@ -17,7 +25,7 @@ module ActiveMerchant #:nodoc:
                 s[0]+"="+s[1]
               end
             end
-            Digest::MD5.hexdigest(md5_string.join("&")+KEY) == sign.downcase
+            Digest::MD5.hexdigest(md5_string.join("&")+alipay_key) == sign.downcase
           end
         end
       end
