@@ -2,6 +2,7 @@
 require 'activemerchant_patch_for_china/version'
 require 'integrations_helper'
 require 'active_merchant/billing/integrations/alipay'
+require 'active_merchant/billing/integrations/alipay_wap'
 require 'active_merchant/billing/integrations/bill99'
 require 'active_merchant/billing/integrations/bill99_card'
 require 'active_merchant/billing/integrations/tenpay'
