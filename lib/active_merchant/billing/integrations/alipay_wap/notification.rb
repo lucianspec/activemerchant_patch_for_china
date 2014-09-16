@@ -1,5 +1,4 @@
 require 'net/http'
-require 'active_merchant/billing/integrations/alipay_wap/sign'
 require 'digest/md5'
 require 'cgi'
 
@@ -8,7 +7,6 @@ module ActiveMerchant #:nodoc:
     module Integrations #:nodoc:
       module AlipayWap
         class Notification < ActiveMerchant::Billing::Integrations::Notification
-          include Sign
 
           def complete?
             %w(TRADE_SUCCESS TRADE_FINISHED).include?(trade_status)
@@ -53,7 +51,7 @@ module ActiveMerchant #:nodoc:
           private
 
           def get_value(node)
-            CGI.unescape(params[:notify_data]).to_s.gsub("\n",'').match(/#{node}\>(.*?)\<\/#{node}/).to_a[1]
+            params[node] || CGI.unescape(params[:notify_data]).to_s.gsub("\n",'').match(/#{node}\>(.*?)\<\/#{node}/).to_a[1]
           end
  
           def verify_sign
