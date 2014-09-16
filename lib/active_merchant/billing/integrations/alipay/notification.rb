@@ -15,7 +15,11 @@ module ActiveMerchant #:nodoc:
           def refund?
             refund_status == 'REFUND_SUCCESS'
           end
-
+          
+          def from_mobile?
+            false
+          end
+          
           def pending?
             trade_status == 'WAIT_BUYER_PAY'
           end

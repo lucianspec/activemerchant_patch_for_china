@@ -9,11 +9,15 @@ module ActiveMerchant #:nodoc:
         class Notification < ActiveMerchant::Billing::Integrations::Notification
 
           def complete?
-            %w(TRADE_SUCCESS TRADE_FINISHED).include?(trade_status)
+            %w(TRADE_SUCCESS TRADE_FINISHED).include?(trade_status) || success?
           end
           
           def refund?
             false
+          end
+
+          def from_mobile?
+            true
           end
 
           def pending?
