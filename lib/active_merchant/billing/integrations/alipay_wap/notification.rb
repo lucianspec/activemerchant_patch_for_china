@@ -51,13 +51,13 @@ module ActiveMerchant #:nodoc:
           private
 
           def get_value(node)
-            params[node] || CGI.unescape(params[:notify_data]).to_s.gsub("\n",'').match(/#{node}\>(.*?)\<\/#{node}/).to_a[1]
+            params[node] || CGI.unescape(params[:notify_data].to_s).gsub("\n",'').match(/#{node}\>(.*?)\<\/#{node}/).to_a[1]
           end
  
           def verify_sign
             sign_type = params.delete("sign_type")
             sign = params.delete("sign")
-            alipay_key = ActiveMerchant::Billing::Integrations::Alipay::EMAIL_NEW
+            alipay_key = ActiveMerchant::Billing::Integrations::Alipay::KEY_NEW
             
             md5_string = params.sort.collect do |s|
               s[0] + "=" + CGI.unescape(s[1])
