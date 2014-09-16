@@ -55,7 +55,7 @@ module ActiveMerchant #:nodoc:
           private
 
           def get_value(node)
-            params[node] || CGI.unescape(params[:notify_data].to_s).gsub("\n",'').match(/#{node}\>(.*?)\<\/#{node}/).to_a[1]
+            params[node] || CGI.unescape(params["notify_data"].to_s).gsub("\n",'').match(/#{node}\>(.*?)\<\/#{node}/).to_a[1]
           end
  
           def verify_sign
