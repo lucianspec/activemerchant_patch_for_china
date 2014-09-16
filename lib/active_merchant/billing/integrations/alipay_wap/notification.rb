@@ -27,7 +27,7 @@ module ActiveMerchant #:nodoc:
           end
        
           def success?
-            params['result'] == 'success' && complete?
+            params['result'] == 'success'
           end
           
           def acknowledge
@@ -55,17 +55,11 @@ module ActiveMerchant #:nodoc:
           def get_value(node)
             CGI.unescape(params[:notify_data]).to_s.gsub("\n",'').match(/#{node}\>(.*?)\<\/#{node}/).to_a[1]
           end
-
+ 
           def verify_sign
+            sign_type = params.delete("sign_type")
             sign = params.delete("sign")
-            email = seller_email
-            if email == EMAIL_NEW
-              alipay_key = KEY_NEW
-            elsif email == EMAIL
-              alipay_key = KEY
-            else
-              return false
-            end
+            alipay_key = ActiveMerchant::Billing::Integrations::Alipay::EMAIL_NEW
             
             md5_string = params.sort.collect do |s|
               s[0] + "=" + CGI.unescape(s[1])
