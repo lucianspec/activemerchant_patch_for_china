@@ -45,7 +45,7 @@ module ActiveMerchant #:nodoc:
              notify_id
              refund_status
           ).each do |method|
-             define_method method
+             define_method method do
                get_value(method)
              end
           end
