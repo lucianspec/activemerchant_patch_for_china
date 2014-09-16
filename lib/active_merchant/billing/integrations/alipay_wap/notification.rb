@@ -63,10 +63,12 @@ module ActiveMerchant #:nodoc:
             sign = params.delete("sign")
             alipay_key = ActiveMerchant::Billing::Integrations::Alipay::KEY_NEW
             
-            md5_string = params.sort.collect do |s|
-              s[0] + "=" + CGI.unescape(s[1])
+            if sign_type
+              md5_string = params.sort.collect {|s| s[0] + "=" + CGI.unescape(s[1]) }.join("&")
+            else
+              md5_string = %w(service v sec_id notify_data).inject({}) {|h, key| h[key] = params[key]; h}.map{|k, v| "#{k}=#{v}"}.join("&")
             end
-            Digest::MD5.hexdigest(md5_string.join("&") + alipay_key) == sign.downcase
+            Digest::MD5.hexdigest(md5_string + alipay_key) == sign.downcase
           end
 
         end
